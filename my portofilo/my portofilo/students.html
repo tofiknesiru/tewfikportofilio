@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Grid</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+            display: none; /* Initially hidden */
+        }
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+        .video-container {
+            position: relative;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .card-content {
+            padding: 15px;
+        }
+        .card-title {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        .card-description {
+            font-size: 1em;
+            color: #555;
+        }
+        .toggle-button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: background-color 0.3s;
+        }
+        .toggle-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<button class="toggle-button" onclick="toggleGrid()">Show My Courses</button>
+
+<div class="grid" id="courseGrid">
+    <div class="card">
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/VIDEO_ID_1" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="card-content">
+            <h2 class="card-title">Course Title 1</h2>
+            <p class="card-description">Brief description of course content 1.</p>
+        </div>
+    </div>
+    <div class="card">
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/VIDEO_ID_2" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="card-content">
+            <h2 class="card-title">Course Title 2</h2>
+            <p class="card-description">Brief description of course content 2.</p>
+        </div>
+    </div>
+    <div class="card">
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/VIDEO_ID_3" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="card-content">
+            <h2 class="card-title">Course Title 3</h2>
+            <p class="card-description">Brief description of course content 3.</p>
+        </div>
+    </div>
+    <!-- Add more cards as needed -->
+</div>
+
+<script>
+    function toggleGrid() {
+        const grid = document.getElementById('courseGrid');
+        if (grid.style.display === 'none' || grid.style.display === '') {
+            grid.style.display = 'grid';
+        } else {
+            grid.style.display = 'none';
+        }
+    }
+</script>
+
+</body>
+</html>

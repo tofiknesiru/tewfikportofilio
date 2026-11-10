@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Form</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+
+        .button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        .form-container {
+            display: none; /* Hidden by default */
+            position: fixed;
+            right: 20px;
+            top: 20px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            transition: transform 0.3s ease;
+            transform: translateX(100%); /* Start off-screen */
+        }
+
+        .form-container.show {
+            display: block; /* Show the form */
+            transform: translateX(0); /* Slide into view */
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button.submit {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button.submit:hover {
+            background-color: #388e3c;
+        }
+    </style>
+</head>
+<body>
+
+    <button class="button" id="sendMessageBtn">Send Message</button>
+
+    <div class="form-container" id="messageForm">
+        <h2>Contact Us</h2>
+        <form id="contact-form">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required />
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required />
+            </div>
+            <div class="form-group">
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="submit">Send Message</button>
+        </form>
+    </div>
+
+    <script>
+        const sendMessageBtn = document.getElementById('sendMessageBtn');
+        const messageForm = document.getElementById('messageForm');
+
+        // Show the form
+        sendMessageBtn.addEventListener('click', () => {
+            messageForm.classList.toggle('show'); // Toggle visibility
+        });
+
+        document.getElementById("contact-form").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Get the form field values
+            var name = document.getElementById("name").value.trim();
+            var email = document.getElementById("email").value.trim();
+            var message = document.getElementById("message").value.trim();
+
+            // Validate the form fields
+            if (!isValidName(name)) {
+                alert("Please enter a valid name (only letters allowed).");
+                return;
+            }
+
+            if (email === "") {
+                alert("Please enter your email address.");
+                return;
+            }
+
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert("Please enter a valid email address.");
+                return;
+            }
+
+            if (message === "") {
+                alert("Please enter a message.");
+                return;
+            }
+
+            // Create the mailto link
+            var mailtoLink = "mailto:tofiknesiru@gmail.com?subject=New Message from Your Website&body=Name: " +
+                name + "%0D%0AEmail: " +
+                email + "%0D%0A%0D%0A" +
+                message;
+
+            // Open the user's default email client
+            window.location.href = mailtoLink;
+
+            // Reset the form
+            this.reset();
+            messageForm.classList.remove('show'); // Hide the form after submission
+        });
+
+        function isValidName(name) {
+            var nameRegex = /^[a-zA-Z\s]+$/;
+            return nameRegex.test(name);
+        }
+    </script>
+
+</body>
+</html>

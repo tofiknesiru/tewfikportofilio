@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Professional Carousel</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      background-color: #f0f0f0;
+      overflow: hidden;
+    }
+
+    .wtitle {
+      font-size: 24px;
+      margin-bottom: 20px;
+      font-weight: bold;
+      color: #333;
+      transition: opacity 0.5s;
+    }
+
+    .carousel-container {
+      display: flex;
+      overflow: hidden; /* Hide overflow for the carousel effect */
+      width: 100%; /* Full width */
+    }
+
+    .professional-carousel {
+      display: flex;
+      transition: transform 0.5s ease-in-out; /* Smooth transition */
+    }
+
+    .wcard {
+      min-width: 200px; /* Fixed width for cards */
+      height: 300px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      margin-right: 30px; /* Space between cards */
+      transition: transform 0.3s, box-shadow 0.3s; /* Hover effect */
+      cursor: pointer; /* Pointer cursor for hover effect */
+    }
+
+    .wcard img {
+      width: 100%;
+      height: 200px;
+      object-fit: contain;
+      margin-bottom: 20px;
+    }
+
+    .wcard h2 {
+      margin-top: 0;
+    }
+
+    .wcard p {
+      margin-bottom: 0;
+    }
+
+    /* Hover effect */
+    .wcard:hover {
+      transform: scale(1.05); /* Slightly enlarge the card */
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+    }
+
+    /* Highlight effect */
+    .highlight {
+      box-shadow: 0 2px 4px 2px  rgb(55, 4, 194); /* Stronger shadow */
+      transform: scale(1.1); /* Slightly enlarge to emphasize */
+      transition: transform 0.5s ease-in-out, box-shadow 0.5s ease-in-out; /* Smooth transition */
+    }
+  </style>
+</head>
+<body>
+  <div class="wtitle">I Work As</div>
+  <div class="carousel-container">
+    <div class="professional-carousel" id="carousel">
+      <div class="wcard" data-title="I have been working as a Teacher">
+        <img src="img/2.jpeg" alt="Teacher">
+        <h2>Teacher</h2>
+        <p>Empowering minds through education.</p>
+      </div>
+      <div class="wcard" data-title="I have been working as a Project Manager">
+        <img src="img/3.jpeg" alt="Project Manager">
+        <h2>Project Manager</h2>
+        <p>Delivering successful projects with expertise.</p>
+      </div>
+      <div class="wcard" data-title="I have been working as a Programming Instructor">
+        <img src="img/4.jpeg" alt="Programming Instructor">
+        <h2>Programming Instructor</h2>
+        <p>Inspiring the next generation of coders.</p>
+      </div>
+      <div class="wcard" data-title="I have been working as a Web Developer">
+        <img src="img/3.jpg" alt="Web Development">
+        <h2>Web Development</h2>
+        <p>Crafting dynamic and responsive websites.</p>
+      </div>
+      <!-- Duplicate cards for the loop effect -->
+      <div class="wcard" data-title="I have been working as a Teacher">
+        <img src="img/2.jpeg" alt="Teacher">
+        <h2>Teacher</h2>
+        <p>Empowering minds through education.</p>
+      </div>
+      <div class="wcard" data-title="I have been working as a Project Manager">
+        <img src="img/3.jpeg" alt="Project Manager">
+        <h2>Project Manager</h2>
+        <p>Delivering successful projects with expertise.</p>
+      </div>
+      <div class="wcard" data-title="I have been working as a Programming Instructor">
+        <img src="img/4.jpeg" alt="Programming Instructor">
+        <h2>Programming Instructor</h2>
+        <p>Inspiring the next generation of coders.</p>
+      </div>
+      <div class="wcard" data-title="I have been working as a Web Developer">
+        <img src="img/3.jpg" alt="Web Development">
+        <h2>Web Development</h2>
+        <p>Crafting dynamic and responsive websites.</p>
+      </div>
+    </div>
+  </div>
+  <script>
+    const title = document.querySelector('.wtitle');
+    const cards = document.querySelectorAll('.wcard');
+    const carousel = document.getElementById('carousel');
+    let currentIndex = 0;
+
+    function updateTitle() {
+      title.textContent = cards[currentIndex].getAttribute('data-title');
+
+      // Remove highlight from all cards
+      cards.forEach(card => card.classList.remove('highlight'));
+
+      // Highlight the current card
+      cards[currentIndex].classList.add('highlight');
+    }
+
+    function moveCarousel() {
+      currentIndex++;
+      // Move the carousel
+      carousel.style.transform = `translateX(-${currentIndex * (200 + 30)}px)`;
+
+      // Check if we've moved past the original cards
+      if (currentIndex >= cards.length / 2) {
+        currentIndex = 0; // Reset the index
+        carousel.style.transition = 'none'; // Disable transition for immediate jump
+        carousel.style.transform = `translateX(0)`; // Jump back to the start
+        requestAnimationFrame(() => {
+          carousel.style.transition = 'transform 0.5s ease-in-out'; // Re-enable transition
+        });
+      }
+      updateTitle();
+    }
+
+    function hoverTitle(event) {
+      const cardTitle = event.currentTarget.getAttribute('data-title');
+      title.textContent = cardTitle; // Update title on hover
+
+      // Remove highlight from all cards
+      cards.forEach(card => card.classList.remove('highlight'));
+
+      // Highlight the hovered card
+      const hoveredCard = Array.from(cards).find(card => card.getAttribute('data-title') === cardTitle);
+      if (hoveredCard) {
+        hoveredCard.classList.add('highlight');
+      }
+    }
+
+    cards.forEach(card => {
+      card.addEventListener('mouseenter', hoverTitle);
+      card.addEventListener('mouseleave', updateTitle); // Reset title when mouse leaves
+    });
+
+    setInterval(moveCarousel, 4000); // Change every 3 seconds
+    updateTitle(); // Initial title update
+  </script>
+</body>
+</html>
